@@ -1,6 +1,9 @@
-import { handleActions } from "redux-actions";
+import { createAction,handleActions } from 'redux-actions';
+// import {call,put} from 'redux-saga/effects';
+import {takeLatest} from 'redux-saga/effects';
 import * as api from '../../lib/api';
-import createRequestThunk from "../../lib/createRequestThunk";
+// import { startLoading,finishLoading } from './loading';
+import createRequestSaga from '../../lib/createRequestSaga';
 
 const GET_POST = 'sample/GET_POST';
 const GET_POST_SUCCESS = 'sample/GET_POST_SUCCESS';
@@ -10,47 +13,16 @@ const GET_USERS = 'sample/GET_USERS';
 const GET_USERS_SUCCESS = 'sample/GET_USERS_SUCCESS';
 // const GET_USERS_FAILURE = 'sample/GET_USERS_FAILURE';
 
+export const getPost = createAction(GET_POST,id=>id);
+export const getUsers = createAction(GET_USERS);
 
-/*
-export const getPost = id => async dispatch => {
-    dispatch({type:GET_POST});
-    try {
-        const response = await api.getPost(id);
-        dispatch({
-            type:GET_POST_SUCCESS,
-            payload:response.data
-        });
-    } catch (e) {
-        dispatch({
-            type:GET_USERS_FAILURE,
-            payload:e,
-            error:true
-        });
-        throw e;
-    }
-};
+const getPostSaga = createRequestSaga(GET_POST,api.getPost);
+const getUsersSaga = createRequestSaga(GET_USERS,api.getUsers);
 
-export const getUsers = id => async dispatch => {
-    dispatch({type:GET_USERS});
-    try{
-        const response = await api.getUsers();
-        dispatch({
-            type:GET_USERS_SUCCESS,
-            payload:response.data
-        })
-    } catch (e) {
-        dispatch({
-            type:GET_USERS_FAILURE,
-            payload:e,
-            error:true
-        });
-        throw e;
-    }
-};
-*/
-
-export const getPost = createRequestThunk(GET_POST,api.getPost);
-export const getUsers = createRequestThunk(GET_USERS,api.getUsers);
+export function* sampleSaga(){
+    yield takeLatest(GET_POST,getPostSaga);
+    yield takeLatest(GET_USERS,getUsersSaga);
+}
 
 const initialState = {
     // loading: {

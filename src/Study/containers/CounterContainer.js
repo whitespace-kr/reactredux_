@@ -1,6 +1,9 @@
-import React,{useCallback} from 'react';
-import Counter from '../components/counter';
-import {useSelector,useDispatch, connect} from 'react-redux';
+import React from 'react';
+// import { useCallback } from 'react';
+import Counter from '../components/Counter';
+// import {useSelector,useDispatch} from 'react-redux';
+
+import { connect } from 'react-redux';
 import { increaseAsync,decreaseAsync } from '../modules/counter';
 
 const CounterContainer = ({number,increaseAsync,decreaseAsync}) => {

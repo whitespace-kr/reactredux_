@@ -5,14 +5,18 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {createStore,applyMiddleware, compose} from 'redux';
 import {Provider} from 'react-redux';
-import rootReducer from './Study/modules';
+import rootReducer, { rootSaga } from './Study/modules/';
 import {createLogger} from 'redux-logger';
 import ReduxThunk from 'redux-thunk';
+import createSagaMiddleware from 'redux-saga';
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({trace:true,tracelimit:30}) || compose;
 
 const logger = createLogger();
-const store = createStore(rootReducer,composeEnhancers(applyMiddleware(logger,ReduxThunk)));
+const sagaMiddleware = createSagaMiddleware();
+const store = createStore(rootReducer,composeEnhancers(applyMiddleware(logger,ReduxThunk,sagaMiddleware)));
+
+sagaMiddleware.run(rootSaga);
 
 ReactDOM.render(
   <Provider store={store}>
