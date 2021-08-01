@@ -3,11 +3,16 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {createStore} from 'redux';
+import {createStore,applyMiddleware, compose} from 'redux';
 import {Provider} from 'react-redux';
 import rootReducer from './Study/modules';
+import {createLogger} from 'redux-logger';
+import ReduxThunk from 'redux-thunk';
 
-const store = createStore(rootReducer,window.__REDUX_DEVTOOLS_EXTENSION__&&window.__REDUX_DEVTOOLS_EXTENSION__({trace:true}));
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const logger = createLogger();
+const store = createStore(rootReducer,composeEnhancers(applyMiddleware(logger,ReduxThunk)));
 
 ReactDOM.render(
   <Provider store={store}>

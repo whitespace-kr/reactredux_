@@ -1,14 +1,12 @@
 // import './App.css';
 import React from 'react';
-import CounterContainer from './Study/containers/CounterContainer';
-import TodosContainer from './Study/containers/TodosContainer'
+import SampleContainer from './Study/containers/SampleContainer';
 
 const App= () => {
   return (
   <div>
-      <CounterContainer/>
+      <SampleContainer/>
       <hr />
-      <TodosContainer />
   </div>
   );
 }
